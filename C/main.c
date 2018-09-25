@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "insertion.h"
-#include "selection.h"
 #include "display.h"
+//#include "insertion.h"
+//#include "selection.h"
+#include "bubble.h"
 int main(int argc, char *argv[]) {
 	int i, n, *A;
 	printf("Enter size of Array: ");

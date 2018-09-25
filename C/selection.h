@@ -1,7 +1,7 @@
 #ifndef _SELECTION_H
 #define _SELECTION_H
 #include "myAlgo.h"
-int *sort(int *A, int n) {
+void sort(int *A, int n) {
 	int i, j, iMin;
 	for(i=0; i<n-1; i++) {
 		iMin = i;
@@ -12,6 +12,5 @@ int *sort(int *A, int n) {
 		if(iMin!=i)
 			swap(&A[i], &A[iMin]);
 	}
-	return A;
 }
 #endif

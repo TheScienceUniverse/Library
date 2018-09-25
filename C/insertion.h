@@ -1,7 +1,7 @@
 #ifndef _INSERTION_H
 #define _INSERTION_H
 #include "myAlgo.h"
-int *sort(int *A, int n) {
+void sort(int *A, int n) {
 	int i, j;
 	for(i=0; i<n; i++)
 		printf("%d ", A[i]);
@@ -16,6 +16,5 @@ int *sort(int *A, int n) {
 		}
 		++i;
 	}
-	return A;
 }
 #endif
