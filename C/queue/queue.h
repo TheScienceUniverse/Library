@@ -49,4 +49,5 @@ void dequeueQ(int *x) {
 		for(int i=0; i<=posQ; i++) { Q[i] = Q[i+1]; }
 	}
 }
+
 #endif
