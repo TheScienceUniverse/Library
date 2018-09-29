@@ -13,7 +13,7 @@ int posQ = -1;	//...Current Position
 int maxQ = 0;	//...Maximum Size
 int stat = 0;	//...Process Status
 
-void makeQ(int n) {
+void createQ(int n) {
 	Q = (int*)malloc(n*sizeof(int));
 	maxQ = n;
 	printf("Queue is ready to use\nMax Size: %d integers\n", maxQ);
@@ -25,6 +25,11 @@ void showQ() {
 		for(int i=0; i<=posQ; printf("%d ", Q[i++]));
 		printf("\n");
 	}
+}
+void deleteQ() {
+	free(Q);
+	posQ = -1, maxQ = 0;
+	stat = Q_SUCCESS;
 }
 void queueQ(int x){
 	if(posQ == maxQ-1) {

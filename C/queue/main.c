@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
 	int i, x = 0, n=3;
-	makeQ(n);
+	createQ(n);
 	for(i=0; i<n; i++) {
 		queueQ(i);
 		showQ();
@@ -13,6 +13,6 @@ int main(int argc, char *argv[]) {
 		dequeueQ(&x);
 		showQ();
 	}
-
+	deleteQ();
 	return 0;
 }
