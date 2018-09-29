@@ -45,15 +45,6 @@ func Calc(a, b Num, s byte) Num {
 		n.D = a.D * b.N
 	}
 	PreProcess(&n)
-/*	if n.N == 0 { n.D = 1 }
-	if (n.N & n.D) != 0{
-		x = gcd(n.N, n.D)
-		n.N /= x; n.D /= x
-	}
-	if n.D < 0 {
-		n.N *= -1
-		n.D *= -1
-	}*/
 	return n
 }
 
