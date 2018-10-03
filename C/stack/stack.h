@@ -16,11 +16,11 @@ int stat = 0;	//...Process Status
 void createS(int n) {
 	S = (int*)malloc(n*sizeof(int));
 	maxS = n;
-	printf("Queue is ready to use\nMax Size: %d integers\n", maxS);
+	printf("Stack is ready to use\nMax Size: %d integers\n", maxS);
 }
 void showS() {
 	if(posS == -1) {
-		perror("Queue EMPTY\n");
+		perror("Stack EMPTY\n");
 	} else {
 		for(int i=0; i<=posS; printf("%d ", S[i++]));
 		printf("\n");
