@@ -31,7 +31,7 @@ void deleteQ() {
 	posQ = -1, maxQ = 0;
 	stat = Q_SUCCESS;
 }
-void queueQ(int x){
+void enqueueQ(int x){
 	if(posQ == maxQ-1) {
 		stat = Q_FULL;
 	} else {
