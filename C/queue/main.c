@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
 	int i, x = 0, n=3;
 	createQ(n);
 	for(i=0; i<n; i++) {
-		queueQ(i);
+		enqueueQ(i);
 		showQ();
 	}
 	for(i=0; i<n; i++) {
