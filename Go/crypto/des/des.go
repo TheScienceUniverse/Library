@@ -4,7 +4,6 @@ import(
 	"fmt"
 )
 
-
 var IP = [64]byte {
 0x39, 0x31, 0x29, 0x21, 0x19, 0x11, 0x09, 0x01,
 0x3b, 0x33, 0x2b, 0x23, 0x1b, 0x13, 0x0b, 0x03,
@@ -34,7 +33,6 @@ var EB = [48]byte {
 0x13, 0x14, 0x15, 0x16, 0x17, 0x18,
 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c,
 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x00 }
-
 
 var SB = [8][4][16]byte {
 {{14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7},
@@ -70,7 +68,22 @@ var SB = [8][4][16]byte {
 {7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8},
 {2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11}}}
 
-
+func B2b(n uint, B byte) []byte {
+	b := make([]byte, n)
+	var i uint
+	for i = 0; i < n; i++ {
+		b[n-i-1] = (B >> i) & 0x01
+	}
+	return b
+}
+func b2B(n int, b []byte) byte {
+	var B byte = 0
+	var i int
+	for i = 0; i < n; i++ {
+		B = (B << 1) | b[i]
+	}
+	return B
+}
 
 func expandBytes(X []byte) []byte {
 	Y := make([]byte, 64)
@@ -109,26 +122,74 @@ func finPermute(X []byte) []byte {
 	}
 	return Y
 }
-func FeistalRound(r int, X []byte) []byte {
 
+func getKey(r int) []byte {
+	K := make([]byte, 48)
+	var i int
+	for i = 0; i < 48; i++ {
+		K[i] = 1
+	}
+	return K
+}
+
+func coreDES(r int, R []byte) []byte {
+	Y := make([]byte, 48)
+	var i int
+	var rs, cs, x byte
+	for i = 0; i < 48; i++ {
+		Y[i] = R[EB[i]]
+	}
+//fmt.Println(Y)
+	for i = 0; i < 8; i++ {
+		rs = (Y[6*i] << 1) | Y[6*i + 5]
+		cs = 0
+		for x = 1; x < 5; x++ {
+			cs = (cs << 1) | Y[6*i + int(x)]
+		}
+		x = SB[i][rs][cs]
+//Z := B2b(4, x)
+//fmt.Println(Z)
+copy(R[4*i : 4*i+4], B2b(4,x))
+	}
+//fmt.Println(R)
+	K := getKey(r)
+	for i = 0; i < 48; i++ {
+		Y[i] &= K[i]
+	}
+	return R
+}
+
+func FeistalRound(r int, X []byte) []byte {
+	var i int
+	L := make([]byte, 32)
+	R := make([]byte, 32)
+	for i = 0; i < 32; i++ {
+		L[i] = X[i]; R[i] = X[32+i];
+	}
+	Y := coreDES(r, R)
+
+	for i = 0; i < 32; i++ {
+		L[i] ^= Y[i]
+	}
+
+	copy(X[0:32], R[:])
+	copy(X[32:64], L[:])
+	return X
 }
 
 func DES(X []byte) []byte {
+
 	var i int
 	X = expandBytes(X)
-	fmt.Println(X)
-
 	X = iniPermute(X)
-	fmt.Println(X)
 
 	for i = 0; i < 16; i++ {
-		
+		X = FeistalRound(i, X)
 	}
 
 	X = finPermute(X)
-	fmt.Println(X)
-
 	X = shrinkBits(X)
 	fmt.Println(X)
+
 	return X
 }
